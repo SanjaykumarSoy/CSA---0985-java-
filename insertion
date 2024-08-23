@@ -1,0 +1,37 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Step 1: Load and register the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Step 2: Establish a connection
+            String url = "jdbc:mysql://localhost:3306/javadb";
+            String user = "root"; // Default username for XAMPP
+            String password = ""; // Default password is empty
+            Connection con = DriverManager.getConnection(url, user, password);
+
+            // Step 3: Create a statement
+            Statement stmt = con.createStatement();
+            // Step 4: Execute a query to create the database
+            String createTableSQL = "CREATE TABLE Student(SNO int, SNAME VARCHAR(20))";
+            stmt.executeUpdate(createTableSQL);
+            System.out.println("Table created successfully...");
+
+            // Step 5: Insert values into the table
+            String insertSQL = "INSERT INTO Student (SNO, SNAME) VALUES (1, 'John Doe')";
+            stmt.executeUpdate(insertSQL);
+            System.out.println("Value inserted successfully...");
+
+            // Step 6: Close the connection
+            stmt.close();
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
